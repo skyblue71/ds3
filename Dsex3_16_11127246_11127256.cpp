@@ -118,8 +118,7 @@ bool HashTable::readFile(string id){						// declaration: read all from a file
                 {
                     case 1: {
 
-                        strcpy(oneR.sid, cut.c_str());
-                        cout << oneR.sid << endl;
+                        strcpy(oneR.sid, cut.c_str() + '\0' );
                         break;
                     }
                     case 2:    strcpy(oneR.sname, cut.c_str())  ;	// get the school name
@@ -198,12 +197,13 @@ void HashTable::OutputBin()  {
 
 string HashTable::transCAtoBinary( char  cA[] ) {
     string  binaryString;
-
     for ( int i = 0; i < 10; i++  ) {
+        if ( cA[i] == '\0' ) {
+            break;
+        }
         binaryString = binaryString + charToBinary( cA[i] ) + " ";
     }
-    //binaryString.replace( binaryString.size() - 1, binaryString.size() - 1, "" );
-    return binaryString;
+    return  binaryString  ;
 }
 
 string HashTable::transINTtoBinary(  int num  ) {
@@ -239,7 +239,6 @@ string HashTable::floatToBinary(float f) {
 
     /// decimal part is all part - integer part
     string decimalPart = transDectoBinary( f - (int )f  );
-    cout << f - (int )f << endl;
     /// if no decimal part
     if ( (int) f == f  ){
         return integerPart;
@@ -278,7 +277,6 @@ string HashTable::transStrtoBinary(string str ) {
     for ( char  c: str ) {
         binary = binary + charToBinary( c ) + " ";
     }
-    binary.replace( str.size() - 1 , str.size() - 1 , "" );
 
 
     return binary;
