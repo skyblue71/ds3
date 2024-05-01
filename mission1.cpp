@@ -141,7 +141,7 @@ bool binexist( string fileName ){
 void readBinary(string fileName) // get records from a file 
 { 	string namecopy = "quadratic"+ fileName +".txt";
 	fileName = "input" + fileName + ".bin";
-	int success = 0;
+	double success = 0;
 	double unsuccess = 0;
 	long long hvalue;
 	fstream binFile; // input file handle
@@ -160,57 +160,65 @@ void readBinary(string fileName) // get records from a file
 		for (int j = 0; j < stNo; j++) 
 		{ 
 			binFile.read((char *)&oneSt, sizeof(oneSt)); // read the entire record from a binary file 
-			//cout<<oneSt.sid<<endl;
+			
 			hvalue = hashindex(oneSt.sid, tableSize);
 	        int i = 0;
 	        int index = quadraticProbing(hvalue, i, tableSize);
 	        success++;
+	        
 	        while (occupied[index] && i < tableSize) {
 	            i++;
 	            index = quadraticProbing(hvalue, i, tableSize);
 	            success++;
+	            
 	        }
 	        if (i < tableSize) {
 	            hashTable[index] = oneSt;
 	            hashvalue[index] = hvalue;
 	            occupied[index] = true;
 	        }
-			//cout << "[" << j+1 << "]" << oneSt.sid << "," << oneSt.sname << endl; 
+	        
 
 		} //end for 
 		binFile.close(); // close input file
 		ofstream outFile(namecopy);
+		outFile << "--- Hash table created by Quadratic probing ---" << endl;
 	    for (int i = 0; i < tableSize; i++) {
 	        if (occupied[i]) {
 	            outFile << "[" << i << "]" << hashvalue[i] << "," << hashTable[i].sid << "," << hashTable[i].sname << "," <<  hashTable[i].mean << endl;
 	        }
-	        else
+	        else{
 	        	outFile << "[" << i << "]" << endl; 
+	        	
+	        }
 	    }
+	    outFile << "-----------------------------------------------" << endl;
 	    outFile.close();
-	    int totalComparisons = 0;
+	    
 		for (int j = 0; j < tableSize; j++) {
 		    if (!occupied[j]) {  
-		        totalComparisons += 1;
+		        unsuccess += 0;
 		    } 
 			else {
-		        int i = j;  		        
+		        int i = j;  	
+				int k = 0;	        
 		        while(occupied[i]) { 		        
-		        	totalComparisons += 1;
-		         	i++;                  
-		        	if(i>=tableSize)
-		        		i=0;   
-				}                           
-				totalComparisons += 1;	              
-		 	}	        		
+		         	i = quadraticProbing(j, k, tableSize);      
+					unsuccess += 1;  
+					k++;      
+				}         
+				unsuccess -= 1;                             
+		 	}	    		
 		}         
-		unsuccess = (double) totalComparisons/tableSize;	
+	
+		unsuccess = unsuccess/tableSize;
+		 
 	} // end if              
 	
 	cout << "\nHash table has been successfully created by Quadratic probing" << endl;
-	cout << "unsuccessful search: " << setprecision(5) << (double)unsuccess  << " comparisons on average" << endl;
-	cout << "successful search: "<< setprecision(5) << (double)success / stNo <<" comparisons on average" << endl;
-	
+	cout << "unsuccessful search: " << setprecision(5) << unsuccess  << " comparisons on average" << endl;
+	cout << "successful search: "<< setprecision(5) << success / stNo <<" comparisons on average" << endl;
+	 
 } 	// end readBinary
 
     
@@ -247,4 +255,3 @@ int main() {
     system("pause");
     return 0;
 }
-
