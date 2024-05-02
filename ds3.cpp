@@ -369,7 +369,7 @@ int main() {
         	else if (h.fileName.compare("0")) 			
             	h.doubleHashing( );
         }
-		else
+	else
             cout << endl << "Command does not exist!" << endl << endl;
         
     }
