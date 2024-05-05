@@ -231,7 +231,7 @@ public :
 		            outFile << "[" << i << "]";   
 		        }
 		        if (occupied[i]) {
-		            outFile <<  hashvalue[i] << "," << hashTable[i].sid << "," << hashTable[i].sname << "," <<  hashTable[i].mean << endl;
+		            outFile <<  " " << hashvalue[i] << "," << " " << hashTable[i].sid << "," << " " << hashTable[i].sname << "," <<  " " <<hashTable[i].mean << endl;
 		        }
 				else 
 					outFile << endl;
@@ -329,7 +329,7 @@ public :
 		            outFile << "[" << i << "]";   
 		        }
 		        if (occupied[i]) {
-		            outFile <<  hashvalue[i] << "," << hashTable[i].sid << "," << hashTable[i].sname << "," <<  hashTable[i].mean << endl;
+		            outFile <<  " " << hashvalue[i] << "," << " " << hashTable[i].sid << "," << " " << hashTable[i].sname << "," <<  " " <<hashTable[i].mean << endl;
 		        }
 				else 
 					outFile << endl;
